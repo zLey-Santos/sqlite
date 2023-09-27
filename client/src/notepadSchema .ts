@@ -5,8 +5,8 @@ const title = z
   .min(4, {
     message: "O título precisa ter pelo menos 4 caracteres",
   })
-  .max(18, {
-    message: "O título precisa ter no máximo 18 caracters",
+  .max(96, {
+    message: "O título precisa ter no máximo 96 caracters",
   });
 
 const subtitle = z
@@ -14,8 +14,8 @@ const subtitle = z
   .min(8, {
     message: "O subtítulo precisa ter pelo menos 8 caracteres",
   })
-  .max(28, {
-    message: "O subtítulo precisa ter no máximo 28 caracters",
+  .max(128, {
+    message: "O subtítulo precisa ter no máximo 128 caracters",
   });
 
 const content = z
@@ -23,8 +23,8 @@ const content = z
   .min(12, {
     message: "O conteudo precisa ter pelo menos 12 caracteres",
   })
-  .max(240, {
-    message: "O conteudo precisa ter no máximo 240 caracters",
+  .max(640, {
+    message: "O conteudo precisa ter no máximo 640 caracters",
   });
 
 export const NotepadSchema = z.object({
