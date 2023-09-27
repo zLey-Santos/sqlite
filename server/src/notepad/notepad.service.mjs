@@ -32,22 +32,14 @@ export async function listNotepads({ limit, offset }) {
 
 export async function createNotepad(data) {
   await createNotepadSchema.parseAsync(data);
-  const { notepadsLatestId } = await jsonService.readjson(notepadLatestIdPath);
-  const notepadId = notepadsLatestId + 1;
+  const nextNotepad = db
+    .prepare(
+      /* sql */ `
+      insert into notepads (title, subtitle, content) 
+      values (	?, ?, ?  )returning *`
+    )
+    .get(data.title, data.subtitle, data.content);
 
-  const nextNotepad = {
-    created_at: new Date().toJSON(),
-    id: notepadId,
-    starRating: 0, // Adicione a propriedade starRating com valor inicial 0
-    numberOfRatings: 0, // Adicione a propriedade numberOfRatings com valor inicial 0
-    averageRating: 0, // Adicione a propriedade averageRating com valor inicial 0
-    ...data,
-  };
-  const path = `${notepadsPath}/${nextNotepad.id}.json`;
-  await jsonService.createjson(path, nextNotepad);
-  await jsonService.updatejson(notepadLatestIdPath, {
-    notepadsLatestId: notepadId,
-  });
   return nextNotepad;
 }
 
@@ -67,9 +59,12 @@ export async function updateNotepad(id, data) {
 }
 
 export async function deleteNotepad(id) {
-  const path = `${notepadsPath}/${id}.json`;
-  const notepad = await jsonService.readjson(path);
-  await jsonService.deletejson(path);
+  const notepad = db
+    .prepare(
+      /* sql */ `	 
+    delete from notepads where id = ? returning *;`
+    )
+    .get(id);
   return notepad;
 }
 
