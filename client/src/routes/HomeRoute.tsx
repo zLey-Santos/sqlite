@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
 import { Card } from "../components/Card";
@@ -82,7 +82,7 @@ export function HomeRoute() {
         pageCount={pageCount}
         currentPage={currentPage}
         basePath="/posts"
-        onPageChange={(page) => setCurrentPage(page)} // Atualiza a página atual
+        onPageChange={(page: SetStateAction<number>) => setCurrentPage(page)} // Atualiza a página atual
       />
     </Card>
   );

@@ -2,13 +2,11 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Title } from "../components/Title";
 import { Link } from "react-router-dom";
-import { Helmet } from "react-helmet";
 import { Card } from "../components/Card";
 import { Pagination } from "../components/pagination"; // Importe o componente de paginação
 import { api } from "../api";
 
 const pageSize = 10;
-
 const initialPostsList = {
   count: 0,
   posts: [],
@@ -21,9 +19,7 @@ export function PostPageRoute() {
   const pageCount = Math.ceil(postsList.count / pageSize);
 
   async function loadPosts() {
-    const response = await api.get(
-      `/posts?limit=${pageSize}&offset=${offset}`
-    );
+    const response = await api.get(`/posts?limit=${pageSize}&offset=${offset}`);
     const nextPosts = response.data;
     setPostsList(nextPosts);
   }
@@ -35,12 +31,8 @@ export function PostPageRoute() {
 
   return (
     <Card>
-      <Helmet>
-        <title>Pagina {params.page} | Posts</title>
-      </Helmet>
-      <Title>
-        Página {params.page} de {pageCount}
-      </Title>
+     <Title>Página {params.page} de {pageCount}</Title>
+
       {postsList.posts.map((post) => {
         return (
           <Link
@@ -51,10 +43,7 @@ export function PostPageRoute() {
             <span className="text-sm text-gray-500">
               {new Date(post.created_at).toLocaleDateString()}
             </span>
-            <h2 className="text-lg font-bold leading-tight pb-1">
-              {post.title}
-            </h2>
-            <p>{post.subtitle}</p>
+            <p>{post.content}</p>
           </Link>
         );
       })}

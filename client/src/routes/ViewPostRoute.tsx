@@ -126,9 +126,8 @@ export function ViewPostRoute() {
         {`Classificação Média:
          ${
            post.numberOfRatings > 0
-             ? post.averageRating.toFixed(1) + ""
-             : 0
-         } (${post.numberOfRatings} avaliações)`}
+             ? post.averageRating.toFixed(1) + "" : 0} 
+             ( ${post.numberOfRatings} avaliações)` }
       </div>
       {/* Botão para enviar a classificação */}
       <Button className="mt-4" typeClass="default" onClick={handleRatePost}>

@@ -54,7 +54,7 @@ export function CreatePostRoute() {
         
         <div className="flex flex-col">
           <textarea
-            placeholder="Digite o conteúdo"
+            placeholder="Digite sua publicação"
             rows={3}
             name={zo.fields.content()}
             className={`rounded-lg px-2 py-1 border focus:border-sky-500 outline-none resize-none w-full

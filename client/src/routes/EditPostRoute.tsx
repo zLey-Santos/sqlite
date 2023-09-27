@@ -50,8 +50,7 @@ export function EditPostRoute() {
   useEffect(() => {
     loadPost();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params.id]);
-
+  }, [params.id]); 
   return (
     <Card>
       <Helmet>

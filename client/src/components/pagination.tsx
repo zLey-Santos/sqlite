@@ -5,10 +5,7 @@ export function Pagination({ pageCount, currentPage, basePath, onPageChange }) {
 
   return (
     <div className="flex flex-row gap-2 flex-wrap p-4 ">
-      {pages.map(
-        (
-          page: number // Defina o tipo do parâmetro 'page' como 'number'
-        ) => (
+      {pages.map(( page: number ) => ( /* Defina o tipo do parâmetro 'page' como 'number'*/
           <LinkButton
             to={`${basePath}/${page}`}
             key={page}
