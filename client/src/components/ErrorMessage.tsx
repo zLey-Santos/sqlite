@@ -3,5 +3,5 @@ export type ErrorMessageProps = {
 };
 
 export function ErrorMessage({ children }: ErrorMessageProps) {
-  return <span className="text-sm leading-tight text-red-500">{children}</span>;
+  return <span className='text-sm leading-tight text-red-500'>{children}</span>;
 }

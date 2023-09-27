@@ -1,11 +1,11 @@
-import { useState, useEffect, SetStateAction } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
-import { FaSpinner } from "react-icons/fa";
-import { Card } from "../components/Card";
-import { Pagination } from "../components/pagination"; // Importe o componente de paginação
-import { api } from "../api";
-import { IPost, IResponseGetPost } from "../interfaces/IPost";
-import { Helmet } from "react-helmet";
+import { useState, useEffect, SetStateAction } from 'react';
+import { Link, useLocation, useParams } from 'react-router-dom';
+import { FaSpinner } from 'react-icons/fa';
+import { Card } from '../components/Card';
+import { Pagination } from '../components/pagination'; // Importe o componente de paginação
+import { api } from '../api';
+import { IPost, IResponseGetPost } from '../interfaces/IPost';
+import { Helmet } from 'react-helmet';
 
 const initialPosts = {
   count: 0,
@@ -58,8 +58,8 @@ export function HomeRoute() {
       </Helmet>
 
       {loading && (
-        <div className="flex justify-center">
-          <FaSpinner className="text-4xl animate-spin" />
+        <div className='flex justify-center'>
+          <FaSpinner className='text-4xl animate-spin' />
         </div>
       )}
 
@@ -67,10 +67,10 @@ export function HomeRoute() {
         <Link
           to={`/view-post/${post.id}`}
           key={post.id}
-          className="border-b py-2 cursor-pointer block">
-          <div className="text-gray-500 mb-2">#{post.id}</div>
+          className='border-b py-2 cursor-pointer block'>
+          <div className='text-gray-500 mb-2'>#{post.id}</div>
 
-          <span className="text-sm text-gray-500">
+          <span className='text-sm text-gray-500'>
             {new Date(post.created_at).toLocaleDateString()}
           </span>
 
@@ -81,7 +81,7 @@ export function HomeRoute() {
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}
-        basePath="/posts"
+        basePath='/posts'
         onPageChange={(page: SetStateAction<number>) => setCurrentPage(page)} // Atualiza a página atual
       />
     </Card>

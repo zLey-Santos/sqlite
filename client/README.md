@@ -21,21 +21,21 @@ O componente AppBar é renderizado no topo do aplicativo e fornece uma barra de 
 
 O componente Footer é renderizado no rodapé do aplicativo.
 
-Quando o usuário acessa a página inicial ("/"), o componente HomeRoute é renderizado.
+Quando o usuário acessa a página inicial ('/'), o componente HomeRoute é renderizado.
 
 O HomeRoute faz uma solicitação GET para a API para obter a lista de posts existentes e renderiza esses posts usando o componente Card.
 
 O componente Card exibe os detalhes do post, como título, descrição e data de criação, e fornece links para visualizar e editar o post.
 
-Ao clicar no link para criar um novo post, o usuário é redirecionado para a rota "/create-post", onde o componente CreatePostRoute é renderizado.
+Ao clicar no link para criar um novo post, o usuário é redirecionado para a rota '/create-post', onde o componente CreatePostRoute é renderizado.
 
 O componente CreatePostRoute exibe um formulário onde o usuário pode inserir o título e a descrição do post e enviar o formulário.
 
 Quando o formulário é enviado, o componente envia uma solicitação POST para a API para criar um novo post com as informações fornecidas.
 
-Após a criação bem-sucedida, o usuário é redirecionado para a página inicial ("/") e o novo post é exibido na lista.
+Após a criação bem-sucedida, o usuário é redirecionado para a página inicial ('/') e o novo post é exibido na lista.
 
-Ao clicar no link para visualizar ou editar um post existente, o usuário é redirecionado para as rotas correspondentes ("/view-post/:id" ou "/edit-post/:id").
+Ao clicar no link para visualizar ou editar um post existente, o usuário é redirecionado para as rotas correspondentes ('/view-post/:id' ou '/edit-post/:id').
 
 Os componentes ViewPostRoute e EditPostRoute fazem solicitações GET para a API para obter os detalhes do post com o ID fornecido e renderizam esses detalhes em um formato adequado.
 

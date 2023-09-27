@@ -1,5 +1,5 @@
-import { db } from "../db.mjs";
-import { createPostSchema } from "./schemas/create-post.schema.mjs";
+import { db } from '../db.mjs';
+import { createPostSchema } from './schemas/create-post.schema.mjs';
 
 export async function listPosts({ limit, offset }) {
   const posts = db.prepare(/* sql */ `
