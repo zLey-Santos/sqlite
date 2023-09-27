@@ -1,25 +1,25 @@
 {
-  "name": "nodejs",
-  "version": "1.0.0",
-  "description": "Criando uma api com express",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon src/index.mjs",
-    "seed:notepad": "node src/notepad/notepad.seed.mjs"
-  },
-  "author": "zLey-Santos",
-  "license": "ISC",
-  "dependencies": {
-    "better-sqlite3": "^8.6.0",
-    "cors": "^2.8.5",
-    "express": "^4.18.2",
-    "express-async-errors": "^3.1.1",
-    "prompt-sync": "^4.2.0",
-    "react-star-ratings": "^2.3.0",
-    "zod": "^3.22.2"
-  },
-  "devDependencies": {
-    "@faker-js/faker": "^8.0.2",
-    "nodemon": "^3.0.1"
-  }
+    "author": "zLey-Santos",
+    "dependencies": {
+        "better-sqlite3": "^8.6.0",
+        "cors": "^2.8.5",
+        "express": "^4.18.2",
+        "express-async-errors": "^3.1.1",
+        "prompt-sync": "^4.2.0",
+        "react-star-ratings": "^2.3.0",
+        "zod": "^3.22.2"
+    },
+    "description": "Criando uma api com express banco de dados em SQLite",
+    "devDependencies": {
+        "@faker-js/faker": "^8.0.2",
+        "nodemon": "^3.0.1"
+    },
+    "license": "ISC",
+    "main": "index.js",
+    "name": "nodejs",
+    "scripts": {
+        "dev": "nodemon src/index.mjs",
+        "seed:post": "node src/post/post.seed.mjs"
+    },
+    "version": "1.0.0"
 }

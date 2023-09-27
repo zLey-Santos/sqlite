@@ -1,4 +1,4 @@
-export interface INotepad {
+export interface IPost {
   [x: string]: any;
   totalRating: any;
   numberOfRatings: any;
@@ -7,13 +7,11 @@ export interface INotepad {
   content: string;
   created_at: string;
   id: number;
-  subtitle: string;
-  title: string;
   count: number;
-  initialNotepads: string;
+  initialPosts: string;
 }
 
-export type IResponseGetNotepad = {
+export type IResponseGetPost = {
   count: number;
-  notepads: INotepad[];
+  posts: IPost[];
 };

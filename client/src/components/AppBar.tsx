@@ -16,10 +16,10 @@ export function AppBar() {
 
       <div className="flex flex-row items-center gap-8">
         <Link
-          to="/create-notepad"
+          to="/create-post"
           className="bg-sky-500 hover:bg-sky-300 text-white font-bold uppercase py-1
           px-3 rounded-md hover:text-black">
-          Novo notepad
+         Nova publicação
         </Link>
       </div>
     </header>
@@ -30,7 +30,7 @@ function Logo() {
   return (
     <Link to="/" className="flex flex-row items-center gap-2">
       <LogoIcon className="text-sky-500 text-4xl" />
-      <h1 className="text-lg uppercase font-bold text-white">Notepads</h1>
+      <h1 className="text-lg uppercase font-bold text-white">Orkut</h1>
     </Link>
   );
 }

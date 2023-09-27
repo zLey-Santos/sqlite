@@ -1,4 +1,4 @@
-# bc-noite-notepads-react-project
+# bc-noite-posts-react-project
 
 Nome: Wesley Santos
 
@@ -17,33 +17,33 @@ Cada rota é associada a um componente específico que renderiza o conteúdo des
 
 O componente App.js é o componente raiz do aplicativo e envolve todas as outras rotas/componentes.
 
-O componente AppBar é renderizado no topo do aplicativo e fornece uma barra de navegação com links para a página inicial e para criar um novo notepad.
+O componente AppBar é renderizado no topo do aplicativo e fornece uma barra de navegação com links para a página inicial e para criar um novo post.
 
 O componente Footer é renderizado no rodapé do aplicativo.
 
 Quando o usuário acessa a página inicial ("/"), o componente HomeRoute é renderizado.
 
-O HomeRoute faz uma solicitação GET para a API para obter a lista de notepads existentes e renderiza esses notepads usando o componente Card.
+O HomeRoute faz uma solicitação GET para a API para obter a lista de posts existentes e renderiza esses posts usando o componente Card.
 
-O componente Card exibe os detalhes do notepad, como título, descrição e data de criação, e fornece links para visualizar e editar o notepad.
+O componente Card exibe os detalhes do post, como título, descrição e data de criação, e fornece links para visualizar e editar o post.
 
-Ao clicar no link para criar um novo notepad, o usuário é redirecionado para a rota "/create-notepad", onde o componente CreateNotepadRoute é renderizado.
+Ao clicar no link para criar um novo post, o usuário é redirecionado para a rota "/create-post", onde o componente CreatePostRoute é renderizado.
 
-O componente CreateNotepadRoute exibe um formulário onde o usuário pode inserir o título e a descrição do notepad e enviar o formulário.
+O componente CreatePostRoute exibe um formulário onde o usuário pode inserir o título e a descrição do post e enviar o formulário.
 
-Quando o formulário é enviado, o componente envia uma solicitação POST para a API para criar um novo notepad com as informações fornecidas.
+Quando o formulário é enviado, o componente envia uma solicitação POST para a API para criar um novo post com as informações fornecidas.
 
-Após a criação bem-sucedida, o usuário é redirecionado para a página inicial ("/") e o novo notepad é exibido na lista.
+Após a criação bem-sucedida, o usuário é redirecionado para a página inicial ("/") e o novo post é exibido na lista.
 
-Ao clicar no link para visualizar ou editar um notepad existente, o usuário é redirecionado para as rotas correspondentes ("/view-notepad/:id" ou "/edit-notepad/:id").
+Ao clicar no link para visualizar ou editar um post existente, o usuário é redirecionado para as rotas correspondentes ("/view-post/:id" ou "/edit-post/:id").
 
-Os componentes ViewNotepadRoute e EditNotepadRoute fazem solicitações GET para a API para obter os detalhes do notepad com o ID fornecido e renderizam esses detalhes em um formato adequado.
+Os componentes ViewPostRoute e EditPostRoute fazem solicitações GET para a API para obter os detalhes do post com o ID fornecido e renderizam esses detalhes em um formato adequado.
 
-No caso do componente EditNotepadRoute, o usuário pode editar o título e a descrição do notepad e enviar as alterações.
+No caso do componente EditPostRoute, o usuário pode editar o título e a descrição do post e enviar as alterações.
 
-Quando o formulário de edição é enviado, o componente envia uma solicitação PATCH para a API para atualizar o notepad com as informações modificadas.
+Quando o formulário de edição é enviado, o componente envia uma solicitação PATCH para a API para atualizar o post com as informações modificadas.
 
-Após a atualização bem-sucedida, o usuário é redirecionado para a página de visualização do notepad atualizado.
+Após a atualização bem-sucedida, o usuário é redirecionado para a página de visualização do post atualizado.
 
 O aplicativo também inclui um componente NotFoundPage para lidar com rotas não correspondentes, exibindo uma página de erro 404.
   

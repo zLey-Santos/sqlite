@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppBar } from "./components/AppBar";
 import { HomeRoute } from "./routes/HomeRoute";
-import { CreateNotepadRoute } from "./routes/CreateNotepadRoute";
-import { ViewNotepadRoute } from "./routes/ViewNotepadRoute";
+import { CreatePostRoute } from "./routes/CreatepostRoute";
+import { ViewPostRoute } from "./routes/ViewPostRoute";
 import { NotFoundPage } from "./routes/NotFoundPage";
 import { Footer } from "./components/FooterComponent";
-import { EditNotepadRoute } from "./routes/EditNotepadRoute";
-import { NotepadPageRoute } from "./routes/NotePageRoute";
+import { EditPostRoute } from "./routes/EditPostRoute";
+import { PostPageRoute } from "./routes/PostPageRoute";
 
 export default function App() {
   return (
@@ -15,11 +15,11 @@ export default function App() {
         <AppBar />
         <Routes>
           <Route path="/" element={<HomeRoute />} />
-          <Route path="/create-notepad" element={<CreateNotepadRoute />} />
-          <Route path="/view-notepad/:id" element={<ViewNotepadRoute />} />
-          <Route path="/edit-notepad/:id" element={<EditNotepadRoute />} />
+          <Route path="/create-post" element={<CreatePostRoute />} />
+          <Route path="/view-post/:id" element={<ViewPostRoute />} />
+          <Route path="/edit-post/:id" element={<EditPostRoute />} />
           <Route path="/not-found-page" element={<NotFoundPage />} />
-          <Route path="/notepads/:page" element={<NotepadPageRoute />} />
+          <Route path="/posts/:page" element={<PostPageRoute />} />
         </Routes>
         <Footer className={"flex justify-end items-center gap-2  bg-[#222]"} />
       </div>

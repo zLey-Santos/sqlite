@@ -5,110 +5,108 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Card } from "../components/Card";
 import { Title } from "../components/Title";
 import { Button } from "../components/Button";
-import { INotepad } from "../interfaces/INotepad";
+import { IPost } from "../interfaces/IPost";
 import { FaTrashAlt } from "react-icons/fa";
 import { AiOutlineEdit } from "react-icons/ai";
 import { Breadcrumbs } from "../components/Breadcrumbs";
 import { Helmet } from "react-helmet";
 import StarRatings from "react-star-ratings"; // Importe o componente de classificação por estrelas
 
-const initialNotepadState: INotepad = {
+const initialPostState: IPost = {
   id: 0,
-  title: "",
-  subtitle: "",
   content: "",
   created_at: "",
   count: 0,
-  initialNotepads: "",
+  initialPosts: "",
   starRating: 0,
   totalRating: 0,
   numberOfRatings: 0,
   averageRating: 0,
 };
 
-export function ViewNotepadRoute() {
+export function ViewPostRoute() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [notepad, setNotepad] = useState<INotepad>(initialNotepadState);
+  const [post, setPost] = useState<IPost>(initialPostState);
   const [rating, setRating] = useState(0); // Estado para controlar a classificação
 
   useEffect(() => {
-    async function fetchNotepad() {
+    async function fetchPost() {
       try {
-        const response = await api.get(`/notepads/${id}`);
-        const fetchedNotepad = response.data;
-        setNotepad(fetchedNotepad);
+        const response = await api.get(`/posts/${id}`);
+        const fetchedPost = response.data;
+        setPost(fetchedPost);
       } catch (error) {
         navigate("/not-found-page");
       }
     }
 
-    fetchNotepad();
+    fetchPost();
   }, [id, navigate]);
 
-  async function handleDeleteNotepad() {
+  async function handleDeletePost() {
     try {
-      const response = await api.delete(`/notepads/${id}`);
+      const response = await api.delete(`/posts/${id}`);
       if (response.data.id) {
-        toast(`O notepad #${notepad.id} foi deletado com sucesso!`);
+        toast(`A publicação #${post.id} foi deletado com sucesso!`);
         navigate("/");
       } else {
-        toast("Houve um erro ao deletar o notepad");
+        toast("Houve um erro ao deletar a publicação");
       }
     } catch (error) {
-      toast("[ERRO]: Impossivel deletar o notepad");
+      toast("[ERRO]: Impossivel deletar sua publicação");
     }
   }
 
-  async function handleRateNotepad() {
+  async function handleRatePost() {
     try {
-      const response = await api.post(`/notepads/${id}/rate`, { rating });
+      const response = await api.post(`/posts/${id}/rate`, { rating });
       if (response.data.id) {
         toast(
-          `Você classificou o notepad #${notepad.id} com ${rating} estrelas!`
+          `Você classificou o post #${post.id} com ${rating} estrelas!`
         );
-        const updatedNotepad = response.data;
+        const updatedPost = response.data;
         // Atualize starRating, totalRating e numberOfRatings
-        setNotepad(updatedNotepad);
+        setPost(updatedPost);
       } else {
-        toast("Houve um erro ao classificar o notepad");
+        toast("Houve um erro ao classificar o post");
       }
     } catch (error) {
-      toast("[ERRO]: Impossível classificar o notepad");
+      toast("[ERRO]: Impossível classificar o post");
     }
   }
 
   return (
     <Card>
       <Helmet>
-        <title>{notepad.title}</title>
+        <title>{post.post}</title>
       </Helmet>
       <Breadcrumbs
         links={[
           { href: "/", label: "Home" },
           {
-            label: `Ver notepad #${id}`,
+            label: `Ver publicação #${id}`,
           },
         ]}
       />
       <div className="flex justify-end gap-3">
-        <Button typeClass="edit" to={`/edit-notepad/${id}`}>
+        <Button typeClass="edit" to={`/edit-post/${id}`}>
           <span className="uppercase mr-3 font-bold">Editar</span>
           <AiOutlineEdit />
         </Button>
 
-        <Button typeClass="danger" onClick={handleDeleteNotepad}>
+        <Button typeClass="danger" onClick={handleDeletePost}>
           <span className="uppercase mr-3 font-bold">Delete</span>
           <FaTrashAlt />
         </Button>
       </div>
-      <div className="text-gray-500 mb-2 ">#{notepad.id}</div>
+      <div className="text-gray-500 mb-2 ">#{post.id}</div>
       <div className="text-gray-500">
-        {new Date(notepad.created_at).toLocaleDateString()}
+        {new Date(post.created_at).toLocaleDateString()}
       </div>
-      <Title>{notepad.title}</Title>
-      <p className="mb-4 text-gray-500">{notepad.subtitle}</p>
-      <p>{notepad.content}</p>
+      <Title>{post.title}</Title>
+      <p className="mb-4 text-gray-500">{post.subtitle}</p>
+      <p>{post.content}</p>
 
       <div className="border mt-6 mb-6"></div>
       {/* Componente de classificação por estrelas */}
@@ -122,18 +120,18 @@ export function ViewNotepadRoute() {
           name="rating"
           starDimension="32px"
         />
-        <span className="ml-4">{notepad.starRating} estrelas</span>
+        <span className="ml-4">{post.starRating} estrelas</span>
       </div>
       <div className="text-gray-500 mt-2">
         {`Classificação Média:
          ${
-           notepad.numberOfRatings > 0
-             ? notepad.averageRating.toFixed(1) + ""
+           post.numberOfRatings > 0
+             ? post.averageRating.toFixed(1) + ""
              : 0
-         } (${notepad.numberOfRatings} avaliações)`}
+         } (${post.numberOfRatings} avaliações)`}
       </div>
       {/* Botão para enviar a classificação */}
-      <Button className="mt-4" typeClass="default" onClick={handleRateNotepad}>
+      <Button className="mt-4" typeClass="default" onClick={handleRatePost}>
         Classificar
       </Button>
     </Card>

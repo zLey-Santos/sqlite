@@ -2,7 +2,7 @@ import "express-async-errors";
 import express from "express";
 import cors from "cors";
 import { ZodError } from "zod";
-import { notepadController } from "./notepad/notepad.controller.mjs";
+import { postController } from "./post/post.controller.mjs";
 
 const port = 9000;
 const host = "localhost";
@@ -24,7 +24,7 @@ function handleErrorMiddlewar(err, req, res, next) {
 
 app.use(express.json());
 app.use(handleErrorMiddlewar);
-app.use("/notepads", notepadController);
+app.use("/posts", postController);
 
 app.listen(port, host, () => {
   console.log(`Servidor inicializado em http://${host}:${port}`);
