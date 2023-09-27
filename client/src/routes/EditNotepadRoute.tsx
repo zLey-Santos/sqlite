@@ -36,7 +36,7 @@ export function EditNotepadRoute() {
   const zo = useZorm("edit-notepad", NotepadSchema, {
     async onValidSubmit(event) {
       event.preventDefault();
-      const response = await api.patch(`/notepads/${params.id}`, event.data);
+      const response = await api.put(`/notepads/${params.id}`, event.data);
       if (response.data.id) {
         toast(texts.submitid);
         navigate(`/view-notepad/${params.id}`);

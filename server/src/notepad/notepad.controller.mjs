@@ -31,15 +31,12 @@ notepadController.delete("/:id", async (req, res) => {
   res.status(200).json(notepad);
 });
 
-notepadController.patch("/:id", async (req, res) => {
+notepadController.put("/:id", async (req, res) => {
   try {
-    const partialNotepad = req.body;
-    await updateNotepadSchema.parseAsync(partialNotepad);
+    const notepadData = req.body;
+    await updateNotepadSchema.parseAsync(notepadData);
     const notepadId = req.params.id;
-    const notepad = await notepadService.updateNotepad(
-      notepadId,
-      partialNotepad
-    );
+    const notepad = await notepadService.updateNotepad(notepadId, notepadData);
     res.status(200).json(notepad);
   } catch (error) {
     res.status(422).json(error);

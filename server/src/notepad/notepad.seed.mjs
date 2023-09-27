@@ -1,7 +1,7 @@
 import * as notepadService from "./notepad.service.mjs";
 import { faker } from "@faker-js/faker";
 
-const defaultLimit = 5;
+const defaultLimit = 10;
 
 async function notepadSeed() {
   const limit = Number(process.argv[2]) || defaultLimit;
