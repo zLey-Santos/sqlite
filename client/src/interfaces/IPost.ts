@@ -14,4 +14,5 @@ export interface IPost {
 export type IResponseGetPost = {
   count: number;
   posts: IPost[];
+ 
 };

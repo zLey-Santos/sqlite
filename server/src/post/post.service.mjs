@@ -55,8 +55,8 @@ export async function listPostsComments(postId) {
   const comment = db.prepare(/* sql */ `
   select id, message, created_at 
   from comments 
-  where post_id = ?`).all(postId);
-
+  where post_id = ?
+  order by created_at desc`).all(postId);
   return comment;
 }
 

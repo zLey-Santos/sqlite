@@ -16,8 +16,7 @@ app.use(
 
 function handleErrorMiddlewar(err, req, res, next) {
   if (err instanceof ZodError) {
-    console.log(err);
-    return res.status(422).json(err);
+     return res.status(422).json(err);
   }
   next();
 }
