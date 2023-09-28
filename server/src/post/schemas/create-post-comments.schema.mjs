@@ -5,8 +5,8 @@ const message = z
   .min(4, {
     message: 'O mensagem precisa ter pelo menos 4 caracteres',
   })
-  .max(96, {
-    message: 'O mensagem precisa ter no máximo 96 caracters',
+  .max(120, {
+    message: 'O mensagem precisa ter no máximo 120 caracters',
   });
 
 export const createPostCommentSchema = z.object({

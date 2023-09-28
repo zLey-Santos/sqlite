@@ -5,8 +5,8 @@ const content = z
   .min(16, {
     message: 'O conteudo precisa ter pelo menos 16 caracteres',
   })
-  .max(270, {
-    message: 'O conteudo precisa ter no máximo 640 caracters',
+  .max(320, {
+    message: 'O conteudo precisa ter no máximo 320 caracters',
   });
 
 export const createPostSchema = z.object({
