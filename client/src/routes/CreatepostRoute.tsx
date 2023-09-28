@@ -1,3 +1,4 @@
+import  { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useZorm } from 'react-zorm';
 import toast from 'react-simple-toasts';
@@ -8,6 +9,7 @@ import { PostSchema } from '../postSchema ';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { Card } from '../components/Card';
 import { Helmet } from 'react-helmet';
+import {Textarea} from '../components/TextArea'; // Importe o componente Textarea
 
 export function CreatePostRoute() {
   const navigate = useNavigate();
@@ -17,7 +19,7 @@ export function CreatePostRoute() {
         event.preventDefault();
         const response = await api.post('/posts', event.data);
         if (response.data.id) {
-          toast('Sua publicação foi criado com sucesso!');
+          toast('Sua publicação foi criada com sucesso!');
           navigate('/');
         } else {
           toast('Houve um erro ao criar a sua publicação. :(');
@@ -36,6 +38,8 @@ export function CreatePostRoute() {
     return 'focus:border-sky-500';
   };
 
+  const [content, setContent] = useState(''); // Estado para controlar o conteúdo do textarea
+
   return (
     <Card>
       <Helmet>
@@ -53,13 +57,16 @@ export function CreatePostRoute() {
         <h1 className='text-center font-bold text-2xl'>Criar publicação</h1>
         
         <div className='flex flex-col'>
-          <textarea
+          <Textarea
             placeholder='Digite sua publicação'
             rows={3}
             name={zo.fields.content()}
-            className={`rounded-lg px-2 py-1 border focus:border-sky-500 outline-none resize-none w-full
+            className={`rounded-lg p-2  border focus:border-sky-500 outline-none resize-none w-full
             ${getClassNameInput('content')}`}
-          />
+            value={content}
+            onChange={(e) => setContent(e.target.value)} // Atualize o estado com o valor do textarea
+            defaultValue={undefined}
+            />
 
           {zo.errors.content((error) => (
             <ErrorMessage>{error.message}</ErrorMessage>
@@ -67,7 +74,7 @@ export function CreatePostRoute() {
         </div>
 
         <Button type='submit'>Enviar</Button>
-      </form>{' '}
+      </form>
     </Card>
   );
 }

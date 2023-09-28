@@ -10,12 +10,13 @@ import { ErrorMessage } from '../components/ErrorMessage';
 import { PostSchema } from '../postSchema ';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { api } from '../api';
+import { Textarea } from '../components/TextArea';
 
 const texts = {
   title: 'Editar publicação',
-  contentPlaceholder: 'Digite a sua publicação',
+  contentPlaceholder: 'Edite a sua publicação',
   submit: 'Enviar',
-  submitid: 'Sua publicação foi editado com sucesso!',
+  submitid: 'Sua publicação foi editada com sucesso!',
   submitFailure: 'Houve um erro ao editar a sua publicação. :(',
 };
 
@@ -75,11 +76,13 @@ export function EditPostRoute() {
       <form ref={zo.ref} className='flex flex-col gap-3'>
         
         <div>
-          <textarea
-            className='rounded-lg px-2 py-1 border focus:border-amber-300 outline-none w-full resize-none'
+          <Textarea
+            className='rounded-lg p-2 border mt-6 focus:border-amber-300 outline-none w-full resize-none'
             placeholder={texts.contentPlaceholder}
             name={zo.fields.content()}
-            defaultValue={initialFormState.content}
+            defaultValue={initialFormState.content} 
+            rows={3}
+            value={undefined} onChange={undefined} 
           />
 
           {zo.errors.content((error) => (

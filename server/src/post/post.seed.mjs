@@ -12,7 +12,7 @@ async function postSeed() {
   for (let index = 0; index < limit; index++) {
     const postDate = generetePost();
     const post = await postService.createPost(postDate);
-    console.log(`Criado post de id #${post.id}`);
+    console.log(`=> Criado post de ID #${post.id} <=`);
     await commentSeed(post);
   }
   console.log('Seeding realizado com sucesso!');
@@ -20,7 +20,7 @@ async function postSeed() {
 
 function generetePost() {
   return {
-    content: faker.lorem.paragraph(2 + Math.round(Math.random() * 3)),
+    content: faker.lorem.words(3 + Math.round(Math.random() * 3)),
     createdAt: faker.date.past({ years: 3 }).toJSON(),
   }
 }

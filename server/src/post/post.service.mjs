@@ -82,7 +82,7 @@ export async function ratePost(id, rating) {
   post.averageRating = post.starRating / post.numberOfRatings;
 
   // Salve a nota atualizada no arquivo JSON
-  await jsonService.updatejson(`${postsPath}/${id}.json`, post);
+  //await jsonService.updatejson(`${postsPath}/${id}.json`, post);
 
   return post;
 }

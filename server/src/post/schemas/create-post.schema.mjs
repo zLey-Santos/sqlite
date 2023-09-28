@@ -2,11 +2,11 @@ import { z } from 'zod';
 
 const content = z
   .string()
-  .min(16, {
-    message: 'O conteudo precisa ter pelo menos 16 caracteres',
+  .min(8, {
+    message: 'A publicação precisa ter pelo menos 8 caracteres',
   })
-  .max(320, {
-    message: 'O conteudo precisa ter no máximo 320 caracters',
+  .max(270, {
+    message: 'A publicação precisa ter no máximo 270 caracters',
   });
 
 export const createPostSchema = z.object({

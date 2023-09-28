@@ -7,9 +7,9 @@ drop table if exists comments;
 		foreign key (post_id) references posts(id) on delete cascade
 	);
 
-  -- Comandos para manipulação da tabela de comentarios(comments)
+  -- Comandos para manipulação da tabela de comentários(comments)
   
-  -- cria um novo comentario em uma publicação
+  -- cria um novo comentário em uma publicação
   	insert into comments( message, post_id ) 
 		values (' uma nova mensagem 4 2 ', 291) ;
 

@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Title } from '../components/Title';
 import { Link } from 'react-router-dom';
 import { Card } from '../components/Card';
 import { Pagination } from '../components/pagination'; // Importe o componente de paginação
 import { api } from '../api';
+import { Helmet } from 'react-helmet';
 
 const pageSize = 10;
 const initialPostsList = {
@@ -29,10 +29,12 @@ export function PostPageRoute() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.page]);
 
+  // exibe número ea quantidade de página no helmet da publicação
+  const postPage = `Publicação pág. ${params.page} de ${pageCount}`
   return (
     <Card>
-     <Title>Página {params.page} de {pageCount}</Title>
-
+      <Helmet><title> {postPage} </title></Helmet> 
+      
       {postsList.posts.map((post) => {
         return (
           <Link

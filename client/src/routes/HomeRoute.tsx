@@ -5,7 +5,7 @@ import { Card } from '../components/Card';
 import { Pagination } from '../components/pagination'; // Importe o componente de paginação
 import { api } from '../api';
 import { IPost, IResponseGetPost } from '../interfaces/IPost';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet';  
 
 const initialPosts = {
   count: 0,
@@ -53,9 +53,7 @@ export function HomeRoute() {
 
   return (
     <Card>
-      <Helmet>
-        <title>Home | Orkut</title>
-      </Helmet>
+      <Helmet> <title>Publicações recentes</title>  </Helmet> 
 
       {loading && (
         <div className='flex justify-center'>
@@ -74,7 +72,7 @@ export function HomeRoute() {
             {new Date(post.created_at).toLocaleDateString()}
           </span>
 
-          <p>{post.content}</p>
+          <p className='break-words'>{post.content}</p>
         </Link>
       ))}
 
