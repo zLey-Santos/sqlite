@@ -62,7 +62,8 @@ export function ViewPostRoute() {
     event.preventDefault();
 
     try {
-      const validationResult = commentSchema.safeParse({ message: comment });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const validationResult : any = commentSchema.safeParse({ message: comment });
       if (validationResult.success) {
         const response = await api.post(`/posts/${id}/comments`, {
           message: comment,
@@ -80,12 +81,12 @@ export function ViewPostRoute() {
           toast('Comentário adicionado com sucesso!');
         }
       } else {
-        const errorMessages = validationResult.error.issues.map((issue) => issue.message);
+        const errorMessages  = validationResult.error.issues.map((issue) => issue.message);
         errorMessages.forEach((errorMessage) => toast(errorMessage));
       }
     } catch (error) {
       if (error.response === 400 || error.response.data) {
-        toast('Erro de validação desconhecido');
+        toast('[ERROR] Validação desconhecida');
       }
     }
   }
@@ -216,7 +217,7 @@ export function ViewPostRoute() {
                   year: 'numeric',
                   hour: '2-digit',
                   minute: '2-digit',
-                })}
+                })}h
               </span>
               <p className='break-words'>{comment.message}</p>
               <div className='border my-2'></div>

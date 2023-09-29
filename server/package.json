@@ -22,7 +22,9 @@
     "name": "nodejs",
     "scripts": {
         "dev": "nodemon src/index.mjs",
-        "seed:post": "node src/post/post.seed.mjs"
+        "seed:friend": "node src/friend/friend.seed.mjs",
+        "seed:post": "node src/post/post.seed.mjs",
+        "seed:user": "node src/user/user.seed.mjs"
     },
     "version": "1.0.0"
 }
