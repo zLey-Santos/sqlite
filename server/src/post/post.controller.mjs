@@ -3,6 +3,7 @@ import * as postService from './post.service.mjs';
 import { createPostSchema } from './schemas/create-post.schema.mjs';
 import { updatePostSchema } from './schemas/update-post.schema.mjs';
 import { createPostCommentSchema } from './schemas/create-post-comment.schema.mjs';
+import { validationResult } from 'express-validator';
 
 export const postController = express.Router();
 

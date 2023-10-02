@@ -1,30 +1,30 @@
-import 'express-async-errors';
-import express from 'express';
-import cors from 'cors';
-import { ZodError } from 'zod';
-import { postController } from './post/post.controller.mjs';
+import "express-async-errors";
+import "dotenv/config";
+import express from "express";
+import cors from "cors";
+import { ZodError } from "zod";
+import { postController } from "./post/post.controller.mjs";
+import { userController } from "./user/user.controller.mjs";
 
 const port = 9000;
 const host = 'localhost';
 const app = express();
 
-app.use(
-  cors({
-    origin: 'http://localhost:5173',
-  })
-);
-
-function handleErrorMiddlewar(err, req, res, next) {
+function handleErrorMiddleware(err, req, res, next) {
   if (err instanceof ZodError) {
-     return res.status(422).json(err);
+    console.error(err);
+    return res.status(422).json(err);
   }
-  next();
+
+  throw err;
 }
 
+app.use(cors());
 app.use(express.json());
-app.use(handleErrorMiddlewar);
-app.use('/posts', postController);
+app.use("/posts", postController);
+app.use("/users", userController);
+app.use(handleErrorMiddleware);
 
 app.listen(port, host, () => {
-  console.log(`Servidor inicializado em http://${host}:${port}`);
+  console.log(`Servidor express iniciado em http://${host}:${port}`);
 });
