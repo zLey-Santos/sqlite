@@ -7,6 +7,7 @@ import { NotFoundPage } from './routes/NotFoundPage';
 import { Footer } from './components/FooterComponent';
 import { EditPostRoute } from './routes/EditPostRoute';
 import { PostPageRoute } from './routes/PostPageRoute';
+import { ProfileRoute } from './routes/ProfileRoute';
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
           <Route path='/edit-post/:id' element={<EditPostRoute />} />
           <Route path='/not-found-page' element={<NotFoundPage />} />
           <Route path='/posts/:page' element={<PostPageRoute />} />
+          <Route path="/perfil/:id" element={<ProfileRoute />} />
         </Routes>
         <Footer className={'flex justify-end items-center gap-2  bg-[#222]'} />
       </div>

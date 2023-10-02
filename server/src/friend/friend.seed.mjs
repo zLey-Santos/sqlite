@@ -1,10 +1,10 @@
-import * as userService from "../user/user.service.mjs";
+import * as userService from '../user/user.service.mjs';
 
 const minFriendsCount = 12;
 const friendsRange = 15;
 
 async function seedFriend() {
-  console.log("Iniciando seeding...");
+  console.log('Iniciando seeding...');
   const users = await userService.listUsers();
   const usersId = users.map((user) => user.id);
   let friendships = []; // { userA: 1, userB: 2 }
@@ -37,7 +37,7 @@ async function seedFriend() {
     console.log(`Usuário #${userA} adicionou #${userB}`);
   }
 
-  console.log("Seeding realizado com sucesso!");
+  console.log('Seeding realizado com sucesso!');
 }
 
 seedFriend();

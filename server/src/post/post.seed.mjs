@@ -1,6 +1,6 @@
-import * as postService from "./post.service.mjs";
-import * as userService from "../user/user.service.mjs";
-import { faker } from "@faker-js/faker";
+import * as postService from './post.service.mjs';
+import * as userService from '../user/user.service.mjs';
+import { faker } from '@faker-js/faker';
 
 const defaultLimit = 100;
 const minCommentCount = 3;
@@ -11,7 +11,7 @@ async function postSeed() {
   const usersIds = users.map((user) => user.id);
 
   const limit = Number(process.argv[2]) || defaultLimit;
-  console.log("Iniciando seeding...");
+  console.log('Iniciando seeding...');
   console.log(`Vão ser criados ${limit} posts`);
   for (let index = 0; index < limit; index++) {
     const userId = getRandomUserId(usersIds);
@@ -20,7 +20,7 @@ async function postSeed() {
     console.log(`Criado post de id #${post.id}`);
     await commentSeed(post, usersIds);
   }
-  console.log("Seeding realizado com sucesso!");
+  console.log('Seeding realizado com sucesso!');
 }
 
 async function commentSeed(post, usersIds) {
