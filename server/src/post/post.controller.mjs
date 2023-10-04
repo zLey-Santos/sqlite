@@ -57,13 +57,10 @@ postController.post('/:id/comments', async (req, res) => {
   try {
     // Obtém a mensagem do corpo da solicitação.
     const message = req.body;
-
     // Obtém o ID do post a partir dos parâmetros da URL.
     const post_id = req.params.id;
-
     // Chama o serviço para criar um comentário no post especificado.
     const comment = await postService.createPostComment(message, post_id);
-
     // Responde com um status 201 (Created) e retorna o comentário criado.
     res.status(201).json(comment);
   } catch (error) {

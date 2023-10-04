@@ -1,8 +1,8 @@
-import { useState, useEffect, SetStateAction } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { FaSpinner } from 'react-icons/fa';
 import { Card } from '../components/Card';
-import { Pagination } from '../components/pagination'; // Importe o componente de paginação
+import { Pagination } from '../components/pagination';
 import { api } from '../api';
 import { IPost, IResponseGetPost } from '../interfaces/IPost';
 import { Helmet } from 'react-helmet';
@@ -12,11 +12,9 @@ const initialPosts = {
   posts: [],
 };
 const initialLoading = true;
-const initialSearch = "";
-const initialOrderBy = "desc"
+const initialSearch = '';
+const initialOrderBy = 'desc';
 const pageSize = 10;
-
-
 
 export function HomeRoute() {
   const params = useParams();
@@ -27,8 +25,8 @@ export function HomeRoute() {
   const [posts, setPosts] = useState(initialPosts);
   const [loading, setLoading] = useState(initialLoading);
 
-  const [currentPage, setCurrentPage] = useState(1); // Página atual
-  const pageCount = Math.ceil(posts.count / pageSize);
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageCount = Math.ceil(postsList.count / pageSize);
 
   async function loadPosts() {
     const response = await api.get(`/posts`, {
@@ -56,28 +54,24 @@ export function HomeRoute() {
     fetchPosts();
     loadPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [search, orderBy]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [ search, orderBy]);
-
-  useEffect(() => {
-    if (postsList.posts.length > 0) {
-      setLoading(false);
-    }
-  }, [postsList]);
+  }, [search, orderBy]);
 
   // Função para dividir posts em páginas de tamanho fixo
   function paginate(array: IPost[], pageSize: number, pageNumber: number) {
-    
     return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
   }
-  paginate(posts.posts, pageSize, currentPage);
+
+  const paginatedPosts = paginate(postsList.posts, pageSize, currentPage);
 
   return (
     <Card>
-      <Helmet> <title>Orkut | Pub's. Recentes</title>  </Helmet>
+      <Helmet>
+        <title>Orkut | Pub's. Recentes</title>
+      </Helmet>
 
       {loading && (
         <div className='flex justify-center'>
@@ -85,56 +79,51 @@ export function HomeRoute() {
         </div>
       )}
 
-      <div className="flex gap-2">
+      <div className='flex gap-2'>
         <input
-          type="search"
-          placeholder="Buscar publicações..."
-          className="flex-1 border-gray-400 focus:border-pink-600 rounded-2xl border-2 outline-none p-2"
+          type='search'
+          placeholder='Buscar publicações...'
+          className='flex-1 border-gray-400 focus:border-pink-600 rounded-2xl border-2 outline-none p-2'
           value={search}
           onChange={(event) => setSearch(event.target.value)}
         />
         <select
-          className="bg-white p-2 border-gray-400 focus:border-pink-600 rounded-md border-2"
+          className='bg-white p-2 border-gray-400 focus:border-pink-600 rounded-md border-2'
           onChange={(event) => {
             setOrderBy(event.target.value);
           }}
         >
-          <option value="desc">Mais recentes</option>
-          <option value="asc">Mais antigas</option>
+          <option value='desc'>Mais recentes</option>
+          <option value='asc'>Mais antigas</option>
         </select>
       </div>
 
-      {postsList.posts.length === 0 &&
-        loading === false &&
-        "Nenhum resultado encontrado"}
+      {postsList.posts.length === 0 && !loading && 'Nenhum resultado encontrado'}
 
-{postsList.posts.map((post) => {
+      {paginatedPosts.map((post) => {
         return (
-          <div key={post.id} className="border-b py-2">
-            <div className="flex items-center gap-2">
+          <div key={post.id} className='border-b py-2'>
+            <div className='flex items-center gap-2'>
               <Link to={`/perfil/${post.user_id}`}>
                 <img
                   src={post.user_avatar}
                   alt={`Foto de ${post.user_first_name} ${post.user_last_name}`}
-                  className="w-[48px] h-[48px] rounded-full"
+                  className='w-[48px] h-[48px] rounded-full'
                 />
               </Link>
-              <div className="flex flex-col">
+              <div className='flex flex-col'>
                 <Link
                   to={`/perfil/${post.user_id}`}
-                  className="text-sky-600 hover:text-sky-800 hover:underline font-bold"
+                  className='text-sky-600 hover:text-sky-800 hover:underline font-bold'
                 >
                   {post.user_first_name} {post.user_last_name}
                 </Link>
-                <span className="text-sm text-gray-500">
+                <span className='text-sm text-gray-500'>
                   {new Date(post.created_at).toLocaleDateString()}
                 </span>
               </div>
             </div>
-            <Link
-              to={`/view-post/${post.id}`}
-              className="cursor-pointer block"
-            >
+            <Link to={`/view-post/${post.id}`} className='cursor-pointer block'>
               <p>{post.content}</p>
             </Link>
           </div>
@@ -145,7 +134,7 @@ export function HomeRoute() {
         pageCount={pageCount}
         currentPage={currentPage}
         basePath='/posts'
-        onPageChange={(page: SetStateAction<number>) => setCurrentPage(page)} // Atualiza a página atual
+        onPageChange={(page: number) => setCurrentPage(page)} // Atualiza a página atual
       />
     </Card>
   );

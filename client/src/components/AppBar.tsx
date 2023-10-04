@@ -7,7 +7,7 @@ export function AppBar() {
       <div className='flex flex-row items-center gap-8'>
 
         <Link to={'/'}>
-          <img src="\src\assets\img-fiveIcons\orkut.png" alt="orkut" className='h-6 w-20 rounded-md ml-3' />
+          <img src='\src\assets\img-fiveIcons\orkut.png' alt='orkut' className='h-6 w-20 rounded-md ml-3' />
         </Link>
       </div>
 

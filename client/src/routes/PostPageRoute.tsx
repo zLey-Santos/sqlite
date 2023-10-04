@@ -36,30 +36,30 @@ export function PostPageRoute() {
       <Helmet><title> {postPage} </title></Helmet> 
       {postsList.posts.map((post) => {
         return (
-          <div key={post.id} className="border-b py-2">
-            <div className="flex items-center gap-2">
+          <div key={post.id} className='border-b py-2'>
+            <div className='flex items-center gap-2'>
               <Link to={`/perfil/${post.user_id}`}>
                 <img
                   src={post.user_avatar}
                   alt={`Foto de ${post.user_first_name} ${post.user_last_name}`}
-                  className="w-[48px] h-[48px] rounded-full"
+                  className='w-[48px] h-[48px] rounded-full'
                 />
               </Link>
-              <div className="flex flex-col">
+              <div className='flex flex-col'>
                 <Link
                   to={`/perfil/${post.user_id}`}
-                  className="text-sky-600 hover:text-sky-800 hover:underline font-bold"
+                  className='text-sky-600 hover:text-sky-800 hover:underline font-bold'
                 >
                   {post.user_first_name} {post.user_last_name}
                 </Link>
-                <span className="text-sm text-gray-500">
+                <span className='text-sm text-gray-500'>
                   {new Date(post.created_at).toLocaleDateString()}
                 </span>
               </div>
             </div>
             <Link
               to={`/view-post/${post.id}`}
-              className="cursor-pointer block"
+              className='cursor-pointer block'
             >
               <p>{post.content}</p>
             </Link>

@@ -3,26 +3,32 @@ import { createPostSchema } from './schemas/create-post.schema.mjs';
 import { createPostCommentSchema } from './schemas/create-post-comment.schema.mjs';
 
 export async function listPosts({ limit, offset, orderBy, search }) {
-  const whereSearch = search ? `where content like '%${search}%'` : '';
+  const whereSearch = search ? `WHERE content LIKE '%${search}%'` : '';
+  const orderBySQL = orderBy === 'asc' ? 'asc' : 'desc';
+
   const posts = db
     .prepare(
       /* sql */ `
-    select
+    SELECT
       posts.id,
       posts.content,
       posts.created_at,
       posts.user_id,
-      users.first_name as user_first_name,
-      users.last_name as user_last_name,
-      users.avatar as user_avatar
-    from posts join users on posts.user_id = users.id
+      users.first_name AS user_first_name,
+      users.last_name AS user_last_name,
+      users.avatar AS user_avatar
+    FROM posts
+    JOIN users ON posts.user_id = users.id
     ${whereSearch}
-    order by posts.created_at ${orderBy} limit ? offset ?`
+    ORDER BY posts.created_at ${orderBySQL}
+    LIMIT ? OFFSET ?`
     )
     .all(limit, offset);
 
-  const { posts_count: count } = db.prepare(/* sql */ 
-  `select count(id) as posts_count from posts`).get();
+  const { posts_count: count } = db.prepare(
+    /* sql */ `
+    SELECT COUNT(id) AS posts_count FROM posts`
+  ).get();
 
   return {
     posts,
@@ -84,7 +90,6 @@ export async function createPostComment(data, post_id) {
   
   // Execute a consulta para obter um `user_id` aleatório
   const { id: user_id } = db.prepare(randomUserIdQuery).get();
-
   // Insira o comentário no banco de dados com o `user_id` aleatório
   const comment = db.prepare(`
     insert into comments (message, post_id, user_id, created_at)
