@@ -56,3 +56,12 @@ export async function listLatestFriends(userId) {
     .all(userId, userId);
   return friends;
 }
+
+export async function getRandomUser() {
+  const randomUser = db
+    .prepare(
+      /* sql */
+      `select * from users order by random() limit 1`
+    ).get();
+  return randomUser;
+}

@@ -12,9 +12,10 @@ import { Breadcrumbs } from "../components/Breadcrumbs";
 import { Helmet } from "react-helmet";
 import StarRatings from "react-star-ratings";
 import { Textarea } from "../components/TextArea";
+import { createPostCommentSchema } from "../commentSchema.ts";
 
 const texts = {
-  commentsTitle: "Comentário ",
+  commentsTitle: "Comentário",
   commentsSendButton: "Comentar",
   starRatingButton: "Classificar",
 };
@@ -29,6 +30,7 @@ const initialPostState: IPost = {
   totalRating: 0,
   numberOfRatings: 0,
   averageRating: 0,
+  user_id: 0,
 };
 
 const initialComments = [];
@@ -41,6 +43,9 @@ export function ViewPostRoute() {
   const [comments, setComments] = useState(initialComments);
   const [comment, setComment] = useState(initialComment);
   const [rating, setRating] = useState(0);
+  const [errors, setErrors] = useState({
+    message: "",
+  });
 
   async function fetchData() {
     try {
@@ -55,12 +60,51 @@ export function ViewPostRoute() {
     }
   }
 
-  async function createComment() {
-    const response = await api.post(`/posts/${params.id}/comments`, {
-      message: comment,
-    });
-    await fetchData(); // Carrega novamente os comentários após criar um novo comentário.
+  async function loadComments() {
+    const response = await api.get(`/posts/${params.id}/comments`);
+    const comments = response.data;
+    setComments(comments);
   }
+
+ // Define um valor padrão para o ID do usuário que está criando o comentário.
+const DEFAULT_USER_ID = 1;
+
+// Função assíncrona para criar um comentário.
+async function createComment() {
+  try {
+    // Cria um objeto commentData com a mensagem do comentário e o ID do usuário padrão.
+    const commentData = {
+      message: comment, // O texto do comentário vem de uma variável chamada 'comment'.
+      user_id: DEFAULT_USER_ID, // Define o ID do usuário como o valor padrão.
+    };
+
+    // Realiza a validação do commentData com um esquema (schema).
+    const validationResult = createPostCommentSchema.safeParse(commentData);
+
+    if (validationResult.success) {
+      // Se a validação for bem-sucedida, envia o comentário para a API.
+      await api.post(`/posts/${params.id}/comments`, validationResult.data);
+
+      // Após a criação do comentário, carrega os comentários novamente.
+      await loadComments();
+
+      // Limpa o campo de texto após a criação do comentário.
+      setComment(""); // Defina o campo de texto como uma string vazia.
+
+    } else {
+      // Se houver erros de validação, obtenha a mensagem de erro do schema.
+      const errorMessage = validationResult.error?.errors[0]?.message;
+
+      // Exibe a mensagem de erro usando um toast.
+      if (errorMessage) {
+        toast(errorMessage);
+      }
+    }
+  } catch (error) {
+    // Em caso de erro durante o processo, exibe o erro na tela para o usuario.
+    toast("Erro ao criar o comentário:", error);
+  }
+}
 
   async function deletePost() {
     const response = await api.delete(`/posts/${params.id}`);
@@ -89,6 +133,7 @@ export function ViewPostRoute() {
   async function onCommentSubmit(event) {
     event.preventDefault();
     await createComment();
+    await loadComments();
   }
 
   useEffect(() => {
@@ -96,8 +141,6 @@ export function ViewPostRoute() {
   }, [params.id]);
 
   const postTitleId = `Publicação #${post.id}`;
-
-
 
   return (
     <>
@@ -171,7 +214,9 @@ export function ViewPostRoute() {
             onChange={(event) => setComment(event.target.value)}
             defaultValue={undefined}
           />
-
+          {errors.message && (
+            <div className="text-red-500">{errors.message}</div>
+          )}
           <div className="flex justify-end mt-2">
             <Button
               className="bg-sky-500 mb-2 uppercase mr-3 font-bold hover:bg-sky-700 "
@@ -202,6 +247,9 @@ export function ViewPostRoute() {
                     {comment.user_first_name} {comment.user_last_name}
                   </Link>
                   <span className="text-sm text-gray-500">
+                    #{comment.user_id}
+                  </span>
+                  <span className="text-sm text-gray-500">
                     {new Date(comment.created_at).toLocaleDateString("pt-BR", {
                       day: "2-digit",
                       month: "2-digit",
@@ -211,9 +259,10 @@ export function ViewPostRoute() {
                     })}
                     h
                   </span>
+                 
                 </div>
               </div>
-              <p>{post.content}</p>
+              <p>{comment.message}</p>
             </div>
           ))}
         </div>
@@ -221,3 +270,4 @@ export function ViewPostRoute() {
     </>
   );
 }
+

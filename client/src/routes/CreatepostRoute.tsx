@@ -65,15 +65,14 @@ export function CreatePostRoute() {
             ${getClassNameInput('content')}`}
             value={content}
             onChange={(e) => setContent(e.target.value)} // Atualize o estado com o valor do textarea
-            defaultValue={undefined}
-            />
+            defaultValue={undefined}/>
 
           {zo.errors.content((error) => (
             <ErrorMessage>{error.message}</ErrorMessage>
           ))}
         </div>
 
-        <Button type='submit'>Enviar</Button>
+        <Button type='submit'>Criar publicação</Button>
       </form>
     </Card>
   );

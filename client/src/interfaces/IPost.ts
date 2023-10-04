@@ -9,6 +9,7 @@ export interface IPost {
   id: number;
   count: number;
   initialPosts: string;
+  user_id:number;
 }
 
 export type IResponseGetPost = {

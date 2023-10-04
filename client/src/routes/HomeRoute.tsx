@@ -60,7 +60,7 @@ export function HomeRoute() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [location, search, orderBy]);
+  }, [ search, orderBy]);
 
   useEffect(() => {
     if (postsList.posts.length > 0) {

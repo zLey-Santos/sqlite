@@ -5,6 +5,9 @@ import { updatePostSchema } from './schemas/update-post.schema.mjs';
 import { createPostCommentSchema } from './schemas/create-post-comment.schema.mjs';
 import { validationResult } from 'express-validator';
 
+import { userController } from '../user/user.controller.mjs';
+import { db } from '../db.mjs';
+
 export const postController = express.Router();
 
 postController.get('/', async (req, res) => {
@@ -49,10 +52,26 @@ postController.get('/:id/comments', async (req, res) => {
   res.status(200).json(comments);
 });
 
+// Controlador para criar um comentário em um post com o ID especificado.
 postController.post('/:id/comments', async (req, res) => {
-  const postId = req.params.id;
-  const commentData = req.body;
-  await createPostCommentSchema.parseAsync(commentData);
-  const comment = await postService.createPostComment(postId, commentData);
-  res.status(201).json(comment);
+  try {
+    // Obtém a mensagem do corpo da solicitação.
+    const message = req.body;
+
+    // Obtém o ID do post a partir dos parâmetros da URL.
+    const post_id = req.params.id;
+
+    // Chama o serviço para criar um comentário no post especificado.
+    const comment = await postService.createPostComment(message, post_id);
+
+    // Responde com um status 201 (Created) e retorna o comentário criado.
+    res.status(201).json(comment);
+  } catch (error) {
+    // Em caso de erro durante o processo, trata o erro e responde com um status de erro.
+    console.error("Erro ao criar o comentário:", error);
+    res.status(500).json({ error: "Erro ao criar o comentário" });
+  }
 });
+
+
+

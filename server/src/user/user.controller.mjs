@@ -1,6 +1,8 @@
 import express from 'express';
 import * as userService from './user.service.mjs';
 
+
+
 export const userController = express.Router();
 
 userController.get('/:userId', async (req, res) => {

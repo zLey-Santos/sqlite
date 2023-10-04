@@ -21,9 +21,8 @@ export async function listPosts({ limit, offset, orderBy, search }) {
     )
     .all(limit, offset);
 
-  const { posts_count: count } = db
-    .prepare(/* sql */ `select count(id) as posts_count from posts`)
-    .get();
+  const { posts_count: count } = db.prepare(/* sql */ 
+  `select count(id) as posts_count from posts`).get();
 
   return {
     posts,
@@ -33,12 +32,9 @@ export async function listPosts({ limit, offset, orderBy, search }) {
 
 export async function createPost(data) {
   await createPostSchema.parseAsync(data);
-  const nextPost = db
-    .prepare(
-      /* sql */ `
+  const nextPost = db.prepare(/* sql */ `
       insert into posts (content, user_id) values (?, ?) returning *;`
-    )
-    .get(data.content, data.user_id);
+    ).get(data.content, data.user_id);
   return nextPost;
 }
 
@@ -48,26 +44,20 @@ export async function readPost(id) {
 }
 
 export async function updatePost(id, data) {
-  const post = db
-    .prepare(
-      /* sql */ `
+  const post = db.prepare(/* sql */ `
       update posts set content=? where id=? returning *;`
-    )
-    .get(data.content, id);
+    ).get(data.content, id);
   return post;
 }
 
 export async function deletePost(id) {
-  const post = db
-    .prepare(/* sql */ `delete from posts where id=? returning *;`)
-    .get(id);
+  const post = db.prepare(/* sql */ 
+  `delete from posts where id=? returning *;`).get(id);
   return post;
 }
 
 export async function listPostComments(postId) {
-  const comments = db
-    .prepare(
-      /* sql */
+  const comments = db.prepare(/* sql */
       `select
         comments.id,
         comments.message,
@@ -79,21 +69,28 @@ export async function listPostComments(postId) {
        from comments join users on comments.user_id = users.id
        where post_id=?
        order by comments.created_at desc`
-    )
-    .all(postId);
+    ).all(postId);
 
   return comments;
 }
 
-export async function createPostComment(postId, data) {
-  await createPostCommentSchema.parseAsync(data);
-  const comment = db
-    .prepare(
-      /* sql */ `
-    insert into comments (message, post_id, user_id)
-    values (?, ?, ?) returning *
-  `
-    )
-    .get(data.message, postId, data.user_id);
+export async function createPostComment(data, post_id) {
+  // Consulta SQL para selecionar um usuário aleatório
+  const randomUserIdQuery = `
+    select id from users
+    order by random()
+    limit 1;
+  `;
+  
+  // Execute a consulta para obter um `user_id` aleatório
+  const { id: user_id } = db.prepare(randomUserIdQuery).get();
+
+  // Insira o comentário no banco de dados com o `user_id` aleatório
+  const comment = db.prepare(`
+    insert into comments (message, post_id, user_id, created_at)
+    values (?, ?, ?, datetime('now'))
+    returning *;
+  `).get(data.message, post_id, user_id);
+
   return comment;
 }

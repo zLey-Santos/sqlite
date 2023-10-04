@@ -1,14 +1,15 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 const message = z
   .string()
   .min(4, {
-    message: "O mensagem precisa ter pelo menos 4 caracteres",
+    message: 'A mensagem precisa ter pelo menos 4 caracteres',
   })
   .max(96, {
-    message: "O mensagem precisa ter no máximo 96 caracters",
+    message: 'A mensagem precisa ter no máximo 96 caracteres',
   });
 
-export const commentSchema = z.object({
+export const createPostCommentSchema = z.object({
   message,
+  user_id: z.number().nullable(),
 });
