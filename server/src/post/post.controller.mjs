@@ -46,7 +46,6 @@ postController.put('/:id', async (req, res) => {
   res.status(200).json(post);
 });
 
-
 postController.get('/:id/comments', async (req, res) => {
   const postId = req.params.id;
   const comments = await postService.listPostComments(postId);

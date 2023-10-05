@@ -6,7 +6,7 @@ import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { api } from '../api';
 import { Textarea } from '../components/TextArea';
-import { PostSchema } from '../postSchema ';
+import { PostSchema } from '../postSchema.ts';
 
 const texts = {
   title: 'Editar publicação',
@@ -54,7 +54,7 @@ export function EditPostRoute() {
         }
       } else {
         // Se a validação falhar, exiba as mensagens de erro
-        validationResult.error.issues.forEach((issue) => {
+        validationResult.error?.issues.forEach((issue) => {
           toast(issue.message);
         });
       }

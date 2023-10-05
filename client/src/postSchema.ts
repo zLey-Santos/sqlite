@@ -11,5 +11,5 @@ const content = z
 
 export const PostSchema = z.object({
   content,
-  user_id: z.number().nullable(),
+/*   user_id: z.number().nullable(), */
 });

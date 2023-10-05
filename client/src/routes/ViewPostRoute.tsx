@@ -13,6 +13,7 @@ import { Helmet } from 'react-helmet';
 import StarRatings from 'react-star-ratings';
 import { Textarea } from '../components/TextArea';
 import { createPostCommentSchema } from '../commentSchema.ts';
+import { DEFAULT_USER_ID } from '../const.ts';
 
 const texts = {
   commentsTitle: 'Comentário',
@@ -67,7 +68,7 @@ export function ViewPostRoute() {
   }
 
 
-const DEFAULT_USER_ID = 1;
+
 
 
 async function createComment() {
