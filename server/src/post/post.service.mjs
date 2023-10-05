@@ -38,10 +38,27 @@ export async function listPosts({ limit, offset, orderBy, search }) {
 
 export async function createPost(data) {
   await createPostSchema.parseAsync(data);
-  const nextPost = db.prepare(/* sql */ `
-      insert into posts (content, user_id) values (?, ?) returning *;`
-    ).get(data.content, data.user_id);
-  return nextPost;
+
+ // Consulta SQL para selecionar um usuário aleatório
+ const randomUserIdQuery = `
+ SELECT id FROM users
+ ORDER BY RANDOM()
+ LIMIT 1;
+`;
+
+// Execute a consulta para obter um `user_id` aleatório
+const { id: user_id } = db.prepare(randomUserIdQuery).get();
+
+// Insira o post no banco de dados com o `user_id` aleatório
+const nextPost = db.prepare(/* sql */ `
+ INSERT INTO posts (content, user_id, created_at)
+ VALUES (?, ?, datetime('now'))
+ RETURNING *;
+`).get(data.content, user_id);
+
+return nextPost;
+
+ 
 }
 
 export async function readPost(id) {
@@ -80,6 +97,7 @@ export async function listPostComments(postId) {
   return comments;
 }
 
+
 export async function createPostComment(data, post_id) {
   // Consulta SQL para selecionar um usuário aleatório
   const randomUserIdQuery = `
@@ -98,4 +116,25 @@ export async function createPostComment(data, post_id) {
   `).get(data.message, post_id, user_id);
 
   return comment;
+}
+
+export async function ratePost(id, rating) {
+  const post = await readPost(id);
+
+  // Atualize a pontuação total das estrelas e o número de classificações
+  post.totalRating += rating;
+  post.numberOfRatings++;
+
+  // Recalcule a classificação média
+  post.averageRating = post.totalRating / post.numberOfRatings;
+
+  // Atualize a postagem no banco de dados com os novos valores
+  const updatedPost = db.prepare(`
+    UPDATE posts
+    SET starRating = ?, totalRating = ?, numberOfRatings = ?, averageRating = ?
+    WHERE id = ?
+    RETURNING *;
+  `).run(post.totalRating, post.totalRating, post.numberOfRatings, post.averageRating, id);
+
+  return updatedPost;
 }

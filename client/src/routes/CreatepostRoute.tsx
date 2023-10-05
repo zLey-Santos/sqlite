@@ -10,7 +10,7 @@ import { Breadcrumbs } from '../components/Breadcrumbs';
 import { Card } from '../components/Card';
 import { Helmet } from 'react-helmet';
 import { Textarea } from '../components/TextArea';
-import { DEFAULT_USER_ID } from '../const.ts';
+import { DEFAULT_USER_ID } from '../defaltUserId.ts';
 
 export function CreatePostRoute() {
   const navigate = useNavigate();

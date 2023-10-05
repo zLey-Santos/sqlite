@@ -13,7 +13,7 @@ import { Helmet } from 'react-helmet';
 import StarRatings from 'react-star-ratings';
 import { Textarea } from '../components/TextArea';
 import { createPostCommentSchema } from '../commentSchema.ts';
-import { DEFAULT_USER_ID } from '../const.ts';
+import { DEFAULT_USER_ID } from '../defaltUserId.ts';
 
 const texts = {
   commentsTitle: 'Comentário',
@@ -71,41 +71,29 @@ export function ViewPostRoute() {
 
 
 
-async function createComment() {
-  try {
-   
-    const commentData = {
-      message: comment, 
-      user_id: DEFAULT_USER_ID, // Define o ID do usuário como o valor padrão.
-    };
+  async function createComment() {
+    try {
+      const commentData = {
+        message: comment,
+        user_id: DEFAULT_USER_ID,
+      };
 
-    // Realiza a validação do commentData com um esquema (schema).
-    const validationResult = createPostCommentSchema.safeParse(commentData);
+      const validationResult = createPostCommentSchema.safeParse(commentData);
 
-    if (validationResult.success) {
-      // Se a validação for bem-sucedida, envia o comentário para a API.
-      await api.post(`/posts/${params.id}/comments`, validationResult.data);
-
-      // Após a criação do comentário, carrega os comentários novamente.
-      await loadComments();
-
-      // Limpa o campo de texto após a criação do comentário.
-      setComment(''); // Defina o campo de texto como uma string vazia.
-
-    } else {
-      // Se houver erros de validação, obtenha a mensagem de erro do schema.
-      const errorMessage = validationResult.error?.errors[0]?.message;
-
-      // Exibe a mensagem de erro usando um toast.
-      if (errorMessage) {
-        toast(errorMessage);
+      if (validationResult.success) {
+        await api.post(`/posts/${params.id}/comments`, validationResult.data);
+        await loadComments();
+        setComment('');
+      } else {
+        const errorMessage = validationResult.error?.errors[0]?.message;
+        if (errorMessage) {
+          toast(errorMessage);
+        }
       }
+    } catch (error) {
+      toast('Erro ao criar o comentário:', error.message);
     }
-  } catch (error) {
-    // Em caso de erro durante o processo, exibe o erro na tela para o usuario.
-    toast('Erro ao criar o comentário:', error);
   }
-}
 
   async function deletePost() {
     const response = await api.delete(`/posts/${params.id}`);

@@ -27,12 +27,18 @@ async function commentSeed(post, usersIds) {
   const commentCount =
     minCommentCount + Math.round(Math.random() * commentRange);
   for (let index = 0; index < commentCount; index++) {
-    const userId = getRandomUserId(usersIds);
-    const comment = generateComment(userId);
-    const addedComment = await postService.createPostComment(post.id, comment);
+    const comment = generateComment();
+
+    // Chame a função createPostComment com os argumentos corretos
+    const addedComment = await postService.createPostComment(
+      comment, // data
+      post.id  // post_id
+    );
+
     console.log(`Criado comentário de id #${addedComment.id}`);
   }
 }
+
 
 function generatePost(user_id) {
   return {
