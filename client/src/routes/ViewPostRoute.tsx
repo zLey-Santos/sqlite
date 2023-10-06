@@ -10,7 +10,6 @@ import { FaTrashAlt } from 'react-icons/fa';
 import { AiOutlineEdit } from 'react-icons/ai';
 import { Breadcrumbs } from '../components/Breadcrumbs';
 import { Helmet } from 'react-helmet';
-import StarRatings from 'react-star-ratings';
 import { Textarea } from '../components/TextArea';
 import { createPostCommentSchema } from '../commentSchema.ts';
 import { DEFAULT_USER_ID } from '../defaltUserId.ts';
@@ -27,11 +26,8 @@ const initialPostState: IPost = {
   created_at: '',
   count: 0,
   initialPosts: '',
-  starRating: 0,
-  totalRating: 0,
-  numberOfRatings: 0,
-  averageRating: 0,
   user_id: 0,
+
 };
 
 const initialComments = [];
@@ -43,7 +39,6 @@ export function ViewPostRoute() {
   const [post, setPost] = useState<IPost>(initialPostState);
   const [comments, setComments] = useState(initialComments);
   const [comment, setComment] = useState(initialComment);
-  const [rating, setRating] = useState(0);
   const [errors, setErrors] = useState({
     message: '',
   });
@@ -66,10 +61,6 @@ export function ViewPostRoute() {
     const comments = response.data;
     setComments(comments);
   }
-
-
-
-
 
   async function createComment() {
     try {
@@ -102,20 +93,6 @@ export function ViewPostRoute() {
       navigate('/');
     } else {
       toast('Houve um erro ao deletar a publicação');
-    }
-  }
-
-  async function handleRatePost() {
-    try {
-      const response = await api.post(`/posts/${params.id}/rate`, { rating });
-      if (response.data.id) {
-        toast(`Você classificou o post #${post.id} com ${rating} estrelas!`);
-        setPost(response.data);
-      } else {
-        toast('Houve um erro ao classificar o post');
-      }
-    } catch (error) {
-      toast('[ERRO]: Impossível classificar o post');
     }
   }
 
@@ -162,32 +139,6 @@ export function ViewPostRoute() {
         </div>
 
         <p className={'break-words'}>{post.content}</p>
-
-        <div className='border mt-6 mb-6 '></div>
-        <div className='flex items-center '>
-          <StarRatings
-            rating={rating}
-            starRatedColor='gold'
-            starHoverColor='gold'
-            changeRating={setRating}
-            numberOfStars={5}
-            name='rating'
-            starDimension='32px'
-          />
-          <span className='ml-4'>{post.starRating} estrelas</span>
-        </div>
-        <div className='text-gray-500 mt-2'>
-          {`Classificação Média: ${post.numberOfRatings > 0 ? post.averageRating.toFixed(1) + '' : 0
-            } 
-            ( ${post.numberOfRatings} avaliações)`}
-        </div>
-        <Button
-          className='mt-4 bg-sky-500 hover:bg-sky-700'
-          typeClass='edit'
-          onClick={handleRatePost}
-        >
-          {texts.starRatingButton}
-        </Button>
       </Card>
 
       <Card>

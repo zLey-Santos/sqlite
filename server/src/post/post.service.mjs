@@ -118,23 +118,3 @@ export async function createPostComment(data, post_id) {
   return comment;
 }
 
-export async function ratePost(id, rating) {
-  const post = await readPost(id);
-
-  // Atualize a pontuação total das estrelas e o número de classificações
-  post.totalRating += rating;
-  post.numberOfRatings++;
-
-  // Recalcule a classificação média
-  post.averageRating = post.totalRating / post.numberOfRatings;
-
-  // Atualize a postagem no banco de dados com os novos valores
-  const updatedPost = db.prepare(`
-    UPDATE posts
-    SET starRating = ?, totalRating = ?, numberOfRatings = ?, averageRating = ?
-    WHERE id = ?
-    RETURNING *;
-  `).run(post.totalRating, post.totalRating, post.numberOfRatings, post.averageRating, id);
-
-  return updatedPost;
-}

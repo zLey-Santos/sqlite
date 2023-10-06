@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AppBar } from './components/AppBar';
 import { HomeRoute } from './routes/HomeRoute';
-import { CreatePostRoute } from './routes/CreatePostRoute';
+import { CreatePostRoute } from './routes/CreatepostRoute';
 import { ViewPostRoute } from './routes/ViewPostRoute';
 import { NotFoundPage } from './routes/NotFoundPage';
 import { Footer } from './components/FooterComponent';

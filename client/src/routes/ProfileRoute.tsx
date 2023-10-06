@@ -59,8 +59,8 @@ function AvatarCard({ id, avatar, first_name, last_name }) {
 
 function ProfileCard({ first_name, last_name }) {
   return (
-    <Card>
-      <h2 className='text-2xl font-bold'>
+    <Card >
+      <h2 className=' ml-6 text-2xl w-full font-bold'>
         {first_name} {last_name}
       </h2>
     </Card>
