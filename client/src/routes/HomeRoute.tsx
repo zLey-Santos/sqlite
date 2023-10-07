@@ -7,6 +7,7 @@ import { api } from '../api';
 import { IPost, IResponseGetPost } from '../interfaces/IPost';
 import { Helmet } from 'react-helmet';
 
+// Definição de valores iniciais e constantes
 const initialPosts = {
   count: 0,
   posts: [],
@@ -28,6 +29,7 @@ export function HomeRoute() {
   const [currentPage, setCurrentPage] = useState(1);
   const pageCount = Math.ceil(postsList.count / pageSize);
 
+  // Função assíncrona para carregar os posts
   async function loadPosts() {
     const response = await api.get(`/posts`, {
       params: {
@@ -39,8 +41,8 @@ export function HomeRoute() {
     setPostsList(nextPosts);
   }
 
-  const location = useLocation();
-
+ 
+  // Função assíncrona para buscar os posts paginados
   async function fetchPosts() {
     const response = await api.get<IResponseGetPost>(
       `/posts?limit=${pageSize}&offset=${offset}`
@@ -50,21 +52,24 @@ export function HomeRoute() {
     setLoading(false);
   }
 
+  // Efeito para buscar os posts e atualizar a lista de posts
   useEffect(() => {
     fetchPosts();
     loadPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [search, orderBy]);
 
+  // Efeito para rolar a página para o topo quando a pesquisa ou a ordem mudar
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [search, orderBy]);
 
-  // Função para dividir posts em páginas de tamanho fixo
+  // Função para dividir os posts em páginas de tamanho fixo
   function paginate(array: IPost[], pageSize: number, pageNumber: number) {
     return array.slice((pageNumber - 1) * pageSize, pageNumber * pageSize);
   }
 
+  // Gere os posts para a página atual
   const paginatedPosts = paginate(postsList.posts, pageSize, currentPage);
 
   return (
@@ -73,12 +78,14 @@ export function HomeRoute() {
         <title>Orkut | Pub's. Recentes</title>
       </Helmet>
 
+      {/* Exibe um ícone de carregamento enquanto os dados são buscados */}
       {loading && (
         <div className='flex justify-center'>
           <FaSpinner className='text-4xl animate-spin' />
         </div>
       )}
 
+      {/* Barra de pesquisa e seleção de ordenação */}
       <div className='flex gap-2'>
         <input
           type='search'
@@ -98,8 +105,10 @@ export function HomeRoute() {
         </select>
       </div>
 
+      {/* Exibe uma mensagem se nenhum resultado for encontrado */}
       {postsList.posts.length === 0 && !loading && 'Nenhum resultado encontrado'}
 
+      {/* Mapeia e exibe os posts paginados */}
       {paginatedPosts.map((post) => {
         return (
           <div key={post.id} className='border-b py-2'>
@@ -107,7 +116,7 @@ export function HomeRoute() {
               <Link to={`/perfil/${post.user_id}`}>
                 <img
                   src={post.user_avatar}
-                  alt={`Foto de ${post.user_first_name} ${post.user_last_name}`}
+                  alt={`Foto de ${post.user_last_name} ${post.user_last_name}`}
                   className='w-[48px] h-[48px] rounded-full'
                 />
               </Link>
@@ -116,7 +125,7 @@ export function HomeRoute() {
                   to={`/perfil/${post.user_id}`}
                   className='text-sky-600 hover:text-sky-800 hover:underline font-bold'
                 >
-                  {post.user_first_name} {post.user_last_name}
+                  {post.user_last_name} {post.user_last_name}
                 </Link>
                 <span className='text-sm text-gray-500'>
                   {new Date(post.created_at).toLocaleDateString()}
@@ -130,6 +139,7 @@ export function HomeRoute() {
         );
       })}
 
+      {/* Exibe a paginação */}
       <Pagination
         pageCount={pageCount}
         currentPage={currentPage}

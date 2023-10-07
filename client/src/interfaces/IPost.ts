@@ -1,4 +1,8 @@
+import { ReactNode } from "react";
+
 export interface IPost {
+  user_avatar: string;
+  user_last_name: ReactNode;
   content: string;
   created_at: string;
   id: number;

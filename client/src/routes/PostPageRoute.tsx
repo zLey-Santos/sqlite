@@ -6,7 +6,7 @@ import { Pagination } from '../components/pagination'; // Importe o componente d
 import { api } from '../api';
 import { Helmet } from 'react-helmet';
 
-const pageSize = 10;
+const pageSize = 10; // Define o número de posts por página
 const initialPostsList = {
   count: 0,
   posts: [],
@@ -18,6 +18,7 @@ export function PostPageRoute() {
   const [postsList, setPostsList] = useState(initialPostsList);
   const pageCount = Math.ceil(postsList.count / pageSize);
 
+  // Função assíncrona para carregar os posts da página atual
   async function loadPosts() {
     const response = await api.get(`/posts?limit=${pageSize}&offset=${offset}`);
     const nextPosts = response.data;
@@ -25,12 +26,13 @@ export function PostPageRoute() {
   }
 
   useEffect(() => {
+    // Carrega os posts quando o componente é montado ou quando a página muda
     loadPosts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.page]);
 
-  // exibe número ea quantidade de página no helmet da publicação
-  const postPage = `Publicação pág. ${params.page} de ${pageCount}`
+  // Exibe o número da página atual e o total de páginas no título da página
+  const postPage = `Publicação pág. ${params.page} de ${pageCount}`;
   return (
     <Card>
       <Helmet><title> {postPage} </title></Helmet> 
@@ -67,11 +69,12 @@ export function PostPageRoute() {
         );
       })}
       
+      {/* Renderiza o componente de paginação */}
       <Pagination
         pageCount={pageCount}
         currentPage={parseInt(params.page)}
         basePath='/posts'
-        onPageChange={undefined}
+        onPageChange={undefined} // Aqui deve ser fornecida a função para atualizar a página atual
       />
     </Card>
   );

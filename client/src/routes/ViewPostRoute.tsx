@@ -20,6 +20,7 @@ const texts = {
   starRatingButton: 'Classificar',
 };
 
+// Define o estado inicial para uma postagem
 const initialPostState: IPost = {
   id: 0,
   content: '',
@@ -27,9 +28,11 @@ const initialPostState: IPost = {
   count: 0,
   initialPosts: '',
   user_id: 0,
-
+  user_avatar: '',
+  user_last_name: ''
 };
 
+// Define os estados iniciais para comentários
 const initialComments = [];
 const initialComment = '';
 
@@ -43,6 +46,7 @@ export function ViewPostRoute() {
     message: '',
   });
 
+  // Função assíncrona para buscar dados da postagem e seus comentários
   async function fetchData() {
     try {
       const [postResponse, commentsResponse] = await Promise.all([
@@ -52,16 +56,18 @@ export function ViewPostRoute() {
       setPost(postResponse.data);
       setComments(commentsResponse.data);
     } catch (error) {
-      navigate('/not-found-page');
+      navigate('/not-found-page'); // Redireciona para a página de erro se não encontrar a postagem
     }
   }
 
+  // Função assíncrona para carregar os comentários da postagem
   async function loadComments() {
     const response = await api.get(`/posts/${params.id}/comments`);
     const comments = response.data;
     setComments(comments);
   }
 
+  // Função para criar um comentário na postagem
   async function createComment() {
     try {
       const commentData = {
@@ -86,6 +92,7 @@ export function ViewPostRoute() {
     }
   }
 
+  // Função para excluir a postagem
   async function deletePost() {
     const response = await api.delete(`/posts/${params.id}`);
     if (response.data.id) {
@@ -96,6 +103,7 @@ export function ViewPostRoute() {
     }
   }
 
+  // Função para lidar com o envio de comentário
   async function onCommentSubmit(event) {
     event.preventDefault();
     await createComment();
@@ -103,7 +111,7 @@ export function ViewPostRoute() {
   }
 
   useEffect(() => {
-    fetchData();
+    fetchData(); // Carrega os dados da postagem ao montar o componente
   }, [params.id]);
 
   const postTitleId = `Publicação #${post.id}`;
@@ -122,11 +130,13 @@ export function ViewPostRoute() {
         />
 
         <div className='flex justify-end gap-3'>
+          {/* Botão para editar a postagem */}
           <Button typeClass='edit' to={`/edit-post/${params.id}`}>
             <span className='uppercase mr-3 font-bold '>Editar</span>
             <AiOutlineEdit />
           </Button>
 
+          {/* Botão para deletar a postagem */}
           <Button typeClass='danger' onClick={deletePost}>
             <span className='uppercase mr-3 font-bold'>Delete</span>
             <FaTrashAlt />
@@ -158,6 +168,7 @@ export function ViewPostRoute() {
             <div className='text-red-500'>{errors.message}</div>
           )}
           <div className='flex justify-end mt-2'>
+            {/* Botão para enviar o comentário */}
             <Button
               className='bg-sky-500 mb-2 uppercase mr-3 font-bold hover:bg-sky-700 '
               typeClass='edit'
@@ -169,6 +180,7 @@ export function ViewPostRoute() {
         </form>
 
         <div>
+          {/* Mapeia e exibe os comentários */}
           {comments.map((comment) => (
             <div key={comment.id} className='border-b py-2'>
               <div className='flex items-center gap-2'>
@@ -199,7 +211,6 @@ export function ViewPostRoute() {
                     })}
                     h
                   </span>
-                 
                 </div>
               </div>
               <p>{comment.message}</p>
@@ -210,4 +221,3 @@ export function ViewPostRoute() {
     </>
   );
 }
-

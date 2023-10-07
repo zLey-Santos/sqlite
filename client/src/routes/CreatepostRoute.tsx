@@ -51,18 +51,16 @@ export function CreatePostRoute() {
   // Estado para controlar o conteúdo do textarea
   const [content, setContent] = useState('');
 
-  
-
+  // Função para lidar com o envio do formulário
   const handleSubmit = event => {
     event.preventDefault();
 
     try {
+      // Parseia o conteúdo do textarea usando o esquema de validação PostSchema
       PostSchema.parse({content});
-      console.log('é nois')
-      // If the data is valid, submit the form
     } catch (error) {
-      // If the data is invalid, display an error message
-      console.log(error);
+      // Se os dados forem inválidos, exiba uma mensagem de erro
+      console.error(error);
     }
   }
 
